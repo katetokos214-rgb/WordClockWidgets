@@ -281,18 +281,18 @@ public class WidgetConfigureActivity extends Activity {
     }
 
     private void saveOffsets() {
-        WidgetPreferences.setOffsetX(this, appWidgetId, "hour", blockOffsets.get("hour")[0]);
-        WidgetPreferences.setOffsetY(this, appWidgetId, "hour", blockOffsets.get("hour")[1]);
-        WidgetPreferences.setOffsetX(this, appWidgetId, "minute", blockOffsets.get("minute")[0]);
-        WidgetPreferences.setOffsetY(this, appWidgetId, "minute", blockOffsets.get("minute")[1]);
-        WidgetPreferences.setSecondOffsetX(this, appWidgetId, blockOffsets.get("second")[0]);
-        WidgetPreferences.setSecondOffsetY(this, appWidgetId, blockOffsets.get("second")[1]);
-        WidgetPreferences.setDayNightOffsetX(this, appWidgetId, blockOffsets.get("dayNight")[0]);
-        WidgetPreferences.setDayNightOffsetY(this, appWidgetId, blockOffsets.get("dayNight")[1]);
-        WidgetPreferences.setDateOffsetX(this, appWidgetId, blockOffsets.get("date")[0]);
-        WidgetPreferences.setDateOffsetY(this, appWidgetId, blockOffsets.get("date")[1]);
-        WidgetPreferences.setDayOfWeekOffsetX(this, appWidgetId, blockOffsets.get("dayOfWeek")[0]);
-        WidgetPreferences.setDayOfWeekOffsetY(this, appWidgetId, blockOffsets.get("dayOfWeek")[1]);
+        WidgetPreferences.saveOffsetX(this, appWidgetId, "hour", blockOffsets.get("hour")[0]);
+        WidgetPreferences.saveOffsetY(this, appWidgetId, "hour", blockOffsets.get("hour")[1]);
+        WidgetPreferences.saveOffsetX(this, appWidgetId, "minute", blockOffsets.get("minute")[0]);
+        WidgetPreferences.saveOffsetY(this, appWidgetId, "minute", blockOffsets.get("minute")[1]);
+        WidgetPreferences.saveSecondOffsetX(this, appWidgetId, blockOffsets.get("second")[0]);
+        WidgetPreferences.saveSecondOffsetY(this, appWidgetId, blockOffsets.get("second")[1]);
+        WidgetPreferences.saveDayNightOffsetX(this, appWidgetId, blockOffsets.get("dayNight")[0]);
+        WidgetPreferences.saveDayNightOffsetY(this, appWidgetId, blockOffsets.get("dayNight")[1]);
+        WidgetPreferences.saveDateOffsetX(this, appWidgetId, blockOffsets.get("date")[0]);
+        WidgetPreferences.saveDateOffsetY(this, appWidgetId, blockOffsets.get("date")[1]);
+        WidgetPreferences.saveDayOfWeekOffsetX(this, appWidgetId, blockOffsets.get("dayOfWeek")[0]);
+        WidgetPreferences.saveDayOfWeekOffsetY(this, appWidgetId, blockOffsets.get("dayOfWeek")[1]);
         WidgetPreferences.saveAddZero(this, appWidgetId, addZeroCheckbox.isChecked());
         Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT).show();
     }
