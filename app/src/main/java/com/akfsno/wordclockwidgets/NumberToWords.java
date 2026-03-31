@@ -45,6 +45,16 @@ public class NumberToWords {
         }
     }
 
+    public static String convertMinute(int minute) {
+        if (minute == 0) {
+            return "ноль";
+        }
+        if (minute < 60) {
+            return convert(minute);
+        }
+        return "";
+    }
+
     private static String convert(int number) {
         if (number < 10) {
             return units[number];

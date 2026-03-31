@@ -75,7 +75,7 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    protected abstract int getLayoutResource();
+    protected abstract int getLayoutResource(Context context, int appWidgetId);
 
     protected abstract void setTexts(RemoteViews views, String hourText, String minuteText, String dayNightText, String dayOfWeekText, String dateText);
 
@@ -110,7 +110,7 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
             minuteText = minuteText + " " + NumberToWords.convertMinute(second);
         }
 
-        RemoteViews views = new RemoteViews(context.getPackageName(), getLayoutResource());
+        RemoteViews views = new RemoteViews(context.getPackageName(), getLayoutResource(context, appWidgetId));
         setTexts(views, hourText, minuteText, dayNightText, dayOfWeekText, dateText);
 
         int textColor = WidgetPreferences.getColor(context, appWidgetId, getDefaultTextColor());
@@ -126,7 +126,7 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         int minuteOffsetX = WidgetPreferences.getOffsetX(context, appWidgetId, "minute", 0);
         int minuteOffsetY = WidgetPreferences.getOffsetY(context, appWidgetId, "minute", 0);
 
-        if (getLayoutResource() == R.layout.horizontal_widget_layout) {
+        if (getLayoutResource(context, appWidgetId) == R.layout.horizontal_widget_layout) {
             views.setTextColor(R.id.time_text, textColor);
             views.setTextViewTextSize(R.id.time_text, 0, fontSize);
         } else {
