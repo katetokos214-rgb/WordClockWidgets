@@ -122,13 +122,4 @@ public class NumberToWords {
         String monthStr = months[month - 1];
         return dayStr + " " + monthStr;
     }
-
-    private static String convertYear(int year) {
-        if (year < 1000) return convert(year);
-        int thousand = year / 1000;
-        int rest = year % 1000;
-        String thousandStr = thousands[thousand];
-        String restStr = rest > 0 ? " " + convert(rest) : "";
-        return thousandStr + restStr;
-    }
 }
