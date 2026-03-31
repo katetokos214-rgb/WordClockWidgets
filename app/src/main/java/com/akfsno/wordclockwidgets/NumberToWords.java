@@ -112,11 +112,6 @@ public class NumberToWords {
         "июля", "августа", "сентября", "октября", "ноября", "декабря"
     };
 
-    private static final String[] thousands = {
-        "", "тысяча", "две тысячи", "три тысячи", "четыре тысячи", "пять тысяч", "шесть тысяч",
-        "семь тысяч", "восемь тысяч", "девять тысяч"
-    };
-
     public static String convertDate(int day, int month, int year) {
         String dayStr = convertOrdinal(day);
         String monthStr = months[month - 1];
