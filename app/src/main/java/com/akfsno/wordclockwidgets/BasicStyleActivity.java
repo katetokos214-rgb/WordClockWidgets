@@ -372,6 +372,13 @@ public class BasicStyleActivity extends Activity {
         new WordClockWidgetProvider().onUpdate(this, appWidgetManager, new int[]{appWidgetId});
     }
 
+    private void saveAndFinish() {
+        Intent resultValue = new Intent();
+        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        setResult(RESULT_OK, resultValue);
+        finish();
+    }
+
     private String getColorName(int color) {
         if (color == 0xFFFFFFFF) return "Белый";
         if (color == 0xFF000000) return "Чёрный";
