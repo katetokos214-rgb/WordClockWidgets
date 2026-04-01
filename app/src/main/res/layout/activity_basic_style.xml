@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Базовый стиль"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Preview -->
+        <FrameLayout
+            android:id="@+id/preview_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/darker_gray" />
+
+        <!-- Background Color -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Цвет фона"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/background_color_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/background_color_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Белый" />
+
+        <!-- Background Alpha -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Непрозрачность фона"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/background_alpha_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="255"
+            android:progress="255" />
+
+        <TextView
+            android:id="@+id/background_alpha_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="255" />
+
+        <!-- Text Color -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Цвет текста"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/text_color_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_color_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Чёрный" />
+
+        <!-- Hour Size -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Размер часов"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/hour_size_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="50"
+            android:progress="14" />
+
+        <TextView
+            android:id="@+id/hour_size_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24" />
+
+        <!-- Minute Size -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Размер минут"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/minute_size_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="50"
+            android:progress="14" />
+
+        <TextView
+            android:id="@+id/minute_size_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Сохранить"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</ScrollView>

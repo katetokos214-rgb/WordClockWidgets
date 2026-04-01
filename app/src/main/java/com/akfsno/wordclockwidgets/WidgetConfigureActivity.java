@@ -54,10 +54,7 @@ public class WidgetConfigureActivity extends Activity {
         initializeViews();
         setupBlockList();
         loadOffsets();
-        setupGeneralControls();
         startPreviewUpdater();
-        setupJoystick();
-        setupDragAndDrop();
         setupButtons();
 
         // Set result for widget configuration
@@ -70,43 +67,38 @@ public class WidgetConfigureActivity extends Activity {
         blockList = findViewById(R.id.block_list);
         previewHour = findViewById(R.id.preview_hour);
         previewMinute = findViewById(R.id.preview_minute);
-        previewSecond = findViewById(R.id.preview_second);
         previewDayNight = findViewById(R.id.preview_day_night);
         previewDate = findViewById(R.id.preview_date);
         previewDayOfWeek = findViewById(R.id.preview_day_of_week);
-        joystickUp = findViewById(R.id.joystick_up);
-        joystickDown = findViewById(R.id.joystick_down);
-        joystickLeft = findViewById(R.id.joystick_left);
-        joystickRight = findViewById(R.id.joystick_right);
-        coordinates = findViewById(R.id.coordinates);
         saveButton = findViewById(R.id.save_button);
-        applyButton = findViewById(R.id.apply_button);
         resetAllButton = findViewById(R.id.reset_all_button);
-        backgroundColorButton = findViewById(R.id.background_color_button);
-        borderColorButton = findViewById(R.id.border_color_button);
-        backgroundAlphaSeekBar = findViewById(R.id.background_alpha_seekbar);
-        borderWidthSeekBar = findViewById(R.id.border_width_seekbar);
-        use12hCheckbox = findViewById(R.id.use_12h_checkbox);
     }
 
     private void setupBlockList() {
         List<String> groups = new ArrayList<>();
+        groups.add("Общие настройки");
         groups.add("Часы");
         groups.add("Минуты");
-        groups.add("Секунды");
         groups.add("День/Ночь");
         groups.add("Дата");
         groups.add("День недели");
 
         Map<String, List<String>> children = new HashMap<>();
+        List<String> generalChildren = new ArrayList<>();
+        generalChildren.add("Цвет фона");
+        generalChildren.add("Непрозрачность фона");
+        generalChildren.add("Цвет рамки");
+        generalChildren.add("Толщина рамки");
+        generalChildren.add("12/24-часовой режим");
+        children.put("Общие настройки", generalChildren);
+
         for (String group : groups) {
+            if (group.equals("Общие настройки")) continue;
             List<String> childList = new ArrayList<>();
             childList.add("Цвет текста");
             childList.add("Размер шрифта");
-            if (group.equals("Минуты") || group.equals("Секунды")) {
-                childList.add("+ 0 для цифр до 10");
-            }
             childList.add("Показать элемент");
+            childList.add("Джойстик");
             children.put(group, childList);
         }
 
@@ -122,9 +114,9 @@ public class WidgetConfigureActivity extends Activity {
 
     private String getBlockKey(int position) {
         switch (position) {
-            case 0: return "hour";
-            case 1: return "minute";
-            case 2: return "second";
+            case 0: return "general";
+            case 1: return "hour";
+            case 2: return "minute";
             case 3: return "dayNight";
             case 4: return "date";
             case 5: return "dayOfWeek";
@@ -135,7 +127,6 @@ public class WidgetConfigureActivity extends Activity {
     private void loadOffsets() {
         blockOffsets.put("hour", new int[]{WidgetPreferences.getOffsetX(this, appWidgetId, "hour", 0), WidgetPreferences.getOffsetY(this, appWidgetId, "hour", 0)});
         blockOffsets.put("minute", new int[]{WidgetPreferences.getOffsetX(this, appWidgetId, "minute", 0), WidgetPreferences.getOffsetY(this, appWidgetId, "minute", 0)});
-        blockOffsets.put("second", new int[]{WidgetPreferences.getSecondOffsetX(this, appWidgetId, 0), WidgetPreferences.getSecondOffsetY(this, appWidgetId, 0)});
         blockOffsets.put("dayNight", new int[]{WidgetPreferences.getDayNightOffsetX(this, appWidgetId, 0), WidgetPreferences.getDayNightOffsetY(this, appWidgetId, 0)});
         blockOffsets.put("date", new int[]{WidgetPreferences.getDateOffsetX(this, appWidgetId, 0), WidgetPreferences.getDateOffsetY(this, appWidgetId, 0)});
         blockOffsets.put("dayOfWeek", new int[]{WidgetPreferences.getDayOfWeekOffsetX(this, appWidgetId, 0), WidgetPreferences.getDayOfWeekOffsetY(this, appWidgetId, 0)});
@@ -150,10 +141,6 @@ public class WidgetConfigureActivity extends Activity {
         int[] minOff = blockOffsets.get("minute");
         previewMinute.setTranslationX(minOff[0]);
         previewMinute.setTranslationY(minOff[1]);
-
-        int[] secOff = blockOffsets.get("second");
-        previewSecond.setTranslationX(secOff[0]);
-        previewSecond.setTranslationY(secOff[1]);
 
         int[] dnOff = blockOffsets.get("dayNight");
         previewDayNight.setTranslationX(dnOff[0]);
@@ -347,14 +334,12 @@ public class WidgetConfigureActivity extends Activity {
 
         previewHour.setTextColor(WidgetPreferences.getHourTextColor(this, appWidgetId, getResources().getColor(android.R.color.black)));
         previewMinute.setTextColor(WidgetPreferences.getMinuteTextColor(this, appWidgetId, getResources().getColor(android.R.color.black)));
-        previewSecond.setTextColor(WidgetPreferences.getSecondTextColor(this, appWidgetId, getResources().getColor(android.R.color.black)));
         previewDayNight.setTextColor(WidgetPreferences.getDayNightTextColor(this, appWidgetId, getResources().getColor(android.R.color.holo_red_dark)));
         previewDate.setTextColor(WidgetPreferences.getDateTextColor(this, appWidgetId, getResources().getColor(android.R.color.black)));
         previewDayOfWeek.setTextColor(WidgetPreferences.getDayOfWeekTextColor(this, appWidgetId, getResources().getColor(android.R.color.black)));
 
         previewHour.setVisibility(showHour ? View.VISIBLE : View.GONE);
         previewMinute.setVisibility(showMinute ? View.VISIBLE : View.GONE);
-        previewSecond.setVisibility(showSecond ? View.VISIBLE : View.GONE);
         previewDayNight.setVisibility(showDayNight ? View.VISIBLE : View.GONE);
         previewDate.setVisibility(showDate ? View.VISIBLE : View.GONE);
         previewDayOfWeek.setVisibility(showDayOfWeek ? View.VISIBLE : View.GONE);
@@ -365,12 +350,11 @@ public class WidgetConfigureActivity extends Activity {
         findViewById(R.id.preview_container).setBackgroundColor(bgColor);
 
         int borderColor = WidgetPreferences.getBorderColor(this, appWidgetId, getResources().getColor(android.R.color.holo_red_dark));
-        findViewById(R.id.preview_container).getBackground().setTint(borderColor);
+        findViewById(R.id.preview_container).setBackgroundColor(borderColor);
     }
 
     private void setupButtons() {
         saveButton.setOnClickListener(v -> saveOffsets());
-        applyButton.setOnClickListener(v -> applyOffsets());
         resetAllButton.setOnClickListener(v -> resetAll());
     }
 
@@ -433,8 +417,6 @@ public class WidgetConfigureActivity extends Activity {
         WidgetPreferences.saveOffsetY(this, appWidgetId, "hour", blockOffsets.get("hour")[1]);
         WidgetPreferences.saveOffsetX(this, appWidgetId, "minute", blockOffsets.get("minute")[0]);
         WidgetPreferences.saveOffsetY(this, appWidgetId, "minute", blockOffsets.get("minute")[1]);
-        WidgetPreferences.saveSecondOffsetX(this, appWidgetId, blockOffsets.get("second")[0]);
-        WidgetPreferences.saveSecondOffsetY(this, appWidgetId, blockOffsets.get("second")[1]);
         WidgetPreferences.saveDayNightOffsetX(this, appWidgetId, blockOffsets.get("dayNight")[0]);
         WidgetPreferences.saveDayNightOffsetY(this, appWidgetId, blockOffsets.get("dayNight")[1]);
         WidgetPreferences.saveDateOffsetX(this, appWidgetId, blockOffsets.get("date")[0]);
@@ -442,19 +424,7 @@ public class WidgetConfigureActivity extends Activity {
         WidgetPreferences.saveDayOfWeekOffsetX(this, appWidgetId, blockOffsets.get("dayOfWeek")[0]);
         WidgetPreferences.saveDayOfWeekOffsetY(this, appWidgetId, blockOffsets.get("dayOfWeek")[1]);
 
-        WidgetPreferences.saveUse12HourFormat(this, appWidgetId, use12hCheckbox.isChecked());
-        WidgetPreferences.saveBackgroundAlpha(this, appWidgetId, backgroundAlphaSeekBar.getProgress());
-        WidgetPreferences.saveBorderWidth(this, appWidgetId, borderWidthSeekBar.getProgress());
-
         Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT).show();
-    }
-
-    private void applyOffsets() {
-        saveOffsets();
-        // Update widget
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        new WordClockWidgetProvider().onUpdate(this, appWidgetManager, new int[]{appWidgetId});
-        Toast.makeText(this, "Применено", Toast.LENGTH_SHORT).show();
     }
 
     private void resetAll() {
@@ -463,7 +433,6 @@ public class WidgetConfigureActivity extends Activity {
             blockOffsets.get(key)[0] = 0;
             blockOffsets.get(key)[1] = 0;
         }
-        use12hCheckbox.setChecked(true);
         WidgetPreferences.saveUse12HourFormat(this, appWidgetId, true);
         WidgetPreferences.saveBackgroundColor(this, appWidgetId, 0xFFFFFFFF);
         WidgetPreferences.saveBackgroundAlpha(this, appWidgetId, 255);
@@ -472,10 +441,18 @@ public class WidgetConfigureActivity extends Activity {
         // reset visibility
         WidgetPreferences.saveShowHour(this, appWidgetId, true);
         WidgetPreferences.saveShowMinute(this, appWidgetId, true);
-        WidgetPreferences.saveShowSeconds(this, appWidgetId, false);
         WidgetPreferences.saveShowDayNight(this, appWidgetId, true);
         WidgetPreferences.saveShowDate(this, appWidgetId, true);
         WidgetPreferences.saveShowDayOfWeek(this, appWidgetId, true);
+        // reset colors
+        WidgetPreferences.saveHourTextColor(this, appWidgetId, getResources().getColor(android.R.color.black));
+        WidgetPreferences.saveMinuteTextColor(this, appWidgetId, getResources().getColor(android.R.color.black));
+        WidgetPreferences.saveDayNightTextColor(this, appWidgetId, getResources().getColor(android.R.color.holo_red_dark));
+        WidgetPreferences.saveDateTextColor(this, appWidgetId, getResources().getColor(android.R.color.black));
+        WidgetPreferences.saveDayOfWeekTextColor(this, appWidgetId, getResources().getColor(android.R.color.black));
+        // reset font sizes
+        WidgetPreferences.saveFontSize(this, appWidgetId, 24f);
+        WidgetPreferences.saveMinuteFontSize(this, appWidgetId, 24f);
 
         updatePreview();
         updateCoordinates();
