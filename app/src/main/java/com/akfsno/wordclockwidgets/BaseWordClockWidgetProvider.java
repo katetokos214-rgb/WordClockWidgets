@@ -192,7 +192,17 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         if (getLayoutResource(context, appWidgetId) == R.layout.horizontal_widget_layout) {
             String timeText = hourText + " : " + minuteText;
             if (showSeconds) {
-                timeText += " : " + secondText.replace("\n", " ");
+                timeText += " : " + secondText.replace("\n", " ")
+            if (showSeconds) {
+    views.setTextViewText(R.id.second_text, secondText);
+    views.setViewVisibility(R.id.second_text, View.VISIBLE);
+} else {
+    views.setViewVisibility(R.id.second_text, View.GONE);
+}
+views.setTextViewText(R.id.date_text, showDate ? dateText : "");
+views.setViewVisibility(R.id.date_text, showDate ? View.VISIBLE : View.GONE);
+views.setTextViewText(R.id.day_of_week_text, showDayOfWeek ? dayOfWeekText : "");
+views.setViewVisibility(R.id.day_of_week_text, showDayOfWeek ? View.VISIBLE : View.GONE);;
             }
             views.setTextViewText(R.id.time_text, timeText);
             views.setTextColor(R.id.time_text, blockEnabled ? blockBorderColor : textColor);
