@@ -106,7 +106,7 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
     protected abstract int getDefaultBorderColor();
 
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+3"));
+        Calendar calendar = Calendar.getInstance();
         boolean use12Hour = WidgetPreferences.getUse12HourFormat(context, appWidgetId, false);
         int rawHour = calendar.get(Calendar.HOUR_OF_DAY);
         int hour = use12Hour ? calendar.get(Calendar.HOUR) : rawHour;
