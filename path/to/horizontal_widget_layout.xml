@@ -1,0 +1,30 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/first_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="First Text" />
+
+    <TextView
+        android:id="@+id/second_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Second Text" />
+
+    <TextView
+        android:id="@+id/date_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2026-04-01" />
+
+    <TextView
+        android:id="@+id/day_of_week_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tuesday" />
+</LinearLayout>
