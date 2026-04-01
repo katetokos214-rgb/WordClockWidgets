@@ -65,12 +65,12 @@ public class WidgetConfigureActivity extends Activity {
 
     private void initializeViews() {
         blockList = findViewById(R.id.block_list);
-        previewHour = findViewById(R.id.preview_hour);
-        previewMinute = findViewById(R.id.preview_minute);
-        previewSecond = findViewById(R.id.preview_second);
-        previewDayNight = findViewById(R.id.preview_day_night);
-        previewDate = findViewById(R.id.preview_date);
-        previewDayOfWeek = findViewById(R.id.preview_day_of_week);
+        previewHour = findViewById(R.id.preview_hour_text);
+        previewMinute = findViewById(R.id.preview_minute_text);
+        previewSecond = findViewById(R.id.preview_second_text);
+        previewDayNight = findViewById(R.id.preview_day_night_text);
+        previewDate = findViewById(R.id.preview_date_text);
+        previewDayOfWeek = findViewById(R.id.preview_day_of_week_text);
         saveButton = findViewById(R.id.save_button);
         resetAllButton = findViewById(R.id.reset_all_button);
     }
