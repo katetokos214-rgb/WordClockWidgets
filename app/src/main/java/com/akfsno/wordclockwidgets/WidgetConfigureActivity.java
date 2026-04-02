@@ -43,7 +43,7 @@ public class WidgetConfigureActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        saveOffsets();
+        // saveOffsets(); // removed to avoid frequent saves
     }
 
     @Override
@@ -84,6 +84,7 @@ public class WidgetConfigureActivity extends Activity {
         joystickRight = findViewById(R.id.joystick_right);
         coordinates = findViewById(R.id.coordinates);
         saveButton = findViewById(R.id.save_button);
+        applyButton = findViewById(R.id.apply_button);
         resetAllButton = findViewById(R.id.reset_all_button);
     }
 
@@ -204,7 +205,7 @@ public class WidgetConfigureActivity extends Activity {
                         off[1] = WidgetPreferences.constrainOffset(off[1]);
                         view.setTranslationX(off[0]);
                         view.setTranslationY(off[1]);
-                        saveOffsets();
+                        // saveOffsets(); // removed
                         updateCoordinates();
                         return true;
                 }
@@ -418,6 +419,7 @@ public class WidgetConfigureActivity extends Activity {
 
     private void setupButtons() {
         saveButton.setOnClickListener(v -> saveOffsets());
+        applyButton.setOnClickListener(v -> saveOffsets());
         resetAllButton.setOnClickListener(v -> resetAll());
     }
 
