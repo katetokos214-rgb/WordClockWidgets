@@ -24,6 +24,7 @@ public class WidgetConfigureActivity extends Activity {
 
     private int appWidgetId;
     private ExpandableListView blockList;
+    private View previewContainer;
     private TextView previewHour, previewMinute, previewDayNight, previewDate, previewDayOfWeek;
     private Button joystickUp, joystickDown, joystickLeft, joystickRight;
     private TextView coordinates;
@@ -60,6 +61,7 @@ public class WidgetConfigureActivity extends Activity {
         initializeViews();
         setupBlockList();
         loadOffsets();
+        updatePreview();
         setupDragAndDrop();
         setupJoystick();
         startPreviewUpdater();
@@ -73,6 +75,7 @@ public class WidgetConfigureActivity extends Activity {
 
     private void initializeViews() {
         blockList = findViewById(R.id.block_list);
+        previewContainer = findViewById(R.id.preview_container);
         previewHour = findViewById(R.id.preview_hour);
         previewMinute = findViewById(R.id.preview_minute);
         previewDayNight = findViewById(R.id.preview_day_night);
@@ -125,6 +128,7 @@ public class WidgetConfigureActivity extends Activity {
             saveOffsets();
             selectedBlock = getBlockKey(groupPosition);
             updateCoordinates();
+            updatePreviewText();
             return true;
         });
     }
@@ -150,32 +154,59 @@ public class WidgetConfigureActivity extends Activity {
     }
 
     private void updatePreview() {
-        // Set translations
-        int[] hourOff = blockOffsets.get("hour");
-        previewHour.setTranslationX(hourOff[0]);
-        previewHour.setTranslationY(hourOff[1]);
+        applyTranslationWithBounds("hour", previewHour);
+        applyTranslationWithBounds("minute", previewMinute);
+        applyTranslationWithBounds("dayNight", previewDayNight);
+        applyTranslationWithBounds("date", previewDate);
+        applyTranslationWithBounds("dayOfWeek", previewDayOfWeek);
+    }
 
-        int[] minOff = blockOffsets.get("minute");
-        previewMinute.setTranslationX(minOff[0]);
-        previewMinute.setTranslationY(minOff[1]);
+    private void applyTranslationWithBounds(String block, View view) {
+        int[] off = blockOffsets.get(block);
+        if (off == null) return;
 
-        int[] dnOff = blockOffsets.get("dayNight");
-        previewDayNight.setTranslationX(dnOff[0]);
-        previewDayNight.setTranslationY(dnOff[1]);
+        int[] bounded = constrainOffsetToPreview(view, off[0], off[1]);
+        off[0] = bounded[0];
+        off[1] = bounded[1];
 
-        int[] dateOff = blockOffsets.get("date");
-        previewDate.setTranslationX(dateOff[0]);
-        previewDate.setTranslationY(dateOff[1]);
+        view.setTranslationX(off[0]);
+        view.setTranslationY(off[1]);
+    }
 
-        int[] dowOff = blockOffsets.get("dayOfWeek");
-        previewDayOfWeek.setTranslationX(dowOff[0]);
-        previewDayOfWeek.setTranslationY(dowOff[1]);
+    private int[] constrainOffsetToPreview(View view, int x, int y) {
+        if (previewContainer == null || view == null) {
+            return new int[]{WidgetPreferences.constrainOffset(x), WidgetPreferences.constrainOffset(y)};
+        }
+
+        int containerW = previewContainer.getWidth();
+        int containerH = previewContainer.getHeight();
+        int viewW = view.getWidth();
+        int viewH = view.getHeight();
+
+        if (containerW == 0 || containerH == 0 || viewW == 0 || viewH == 0) {
+            return new int[]{WidgetPreferences.constrainOffset(x), WidgetPreferences.constrainOffset(y)};
+        }
+
+        int borderPx = (int) (2 * view.getResources().getDisplayMetrics().density);
+        int halfW = containerW / 2;
+        int halfH = containerH / 2;
+
+        int maxX = halfW - viewW / 2 - borderPx;
+        int minX = -maxX;
+
+        int maxY = halfH - viewH / 2 - borderPx;
+        int minY = -maxY;
+
+        int boundedX = Math.max(minX, Math.min(maxX, x));
+        int boundedY = Math.max(minY, Math.min(maxY, y));
+
+        return new int[]{boundedX, boundedY};
     }
 
     private void setupDragAndDrop() {
         View.OnTouchListener dragListener = new View.OnTouchListener() {
             private float startRawX, startRawY;
-            private float initialX, initialY;
+            private int startOffsetX, startOffsetY;
             private String draggedBlock;
 
             @Override
@@ -184,29 +215,38 @@ public class WidgetConfigureActivity extends Activity {
                     case MotionEvent.ACTION_DOWN:
                         startRawX = event.getRawX();
                         startRawY = event.getRawY();
-                        initialX = view.getTranslationX();
-                        initialY = view.getTranslationY();
                         draggedBlock = getBlockFromView(view);
                         selectedBlock = draggedBlock;
+
+                        int[] current = blockOffsets.get(draggedBlock);
+                        startOffsetX = current[0];
+                        startOffsetY = current[1];
+
                         updateCoordinates();
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         float deltaX = event.getRawX() - startRawX;
                         float deltaY = event.getRawY() - startRawY;
-                        view.setTranslationX(initialX + deltaX);
-                        view.setTranslationY(initialY + deltaY);
+
+                        int newX = (int) (startOffsetX + deltaX);
+                        int newY = (int) (startOffsetY + deltaY);
+                        int[] bounded = constrainOffsetToPreview(view, newX, newY);
+
+                        blockOffsets.get(draggedBlock)[0] = bounded[0];
+                        blockOffsets.get(draggedBlock)[1] = bounded[1];
+
+                        view.setTranslationX(bounded[0]);
+                        view.setTranslationY(bounded[1]);
+                        updateCoordinates();
                         return true;
                     case MotionEvent.ACTION_UP:
-                        // Update offsets
                         int[] off = blockOffsets.get(draggedBlock);
-                        off[0] = (int) view.getTranslationX();
-                        off[1] = (int) view.getTranslationY();
                         off[0] = WidgetPreferences.constrainOffset(off[0]);
                         off[1] = WidgetPreferences.constrainOffset(off[1]);
+
                         view.setTranslationX(off[0]);
                         view.setTranslationY(off[1]);
-                        // saveOffsets(); // removed
-                        updateCoordinates();
+
                         return true;
                 }
                 return false;
@@ -233,10 +273,25 @@ public class WidgetConfigureActivity extends Activity {
         int[] off = blockOffsets.get(selectedBlock);
         off[0] += dx;
         off[1] += dy;
-        off[0] = WidgetPreferences.constrainOffset(off[0]);
-        off[1] = WidgetPreferences.constrainOffset(off[1]);
+
+        View selectedView = getViewByBlock(selectedBlock);
+        int[] bounded = constrainOffsetToPreview(selectedView, off[0], off[1]);
+        off[0] = bounded[0];
+        off[1] = bounded[1];
+
         updatePreview();
         updateCoordinates();
+    }
+
+    private View getViewByBlock(String block) {
+        switch (block) {
+            case "hour": return previewHour;
+            case "minute": return previewMinute;
+            case "dayNight": return previewDayNight;
+            case "date": return previewDate;
+            case "dayOfWeek": return previewDayOfWeek;
+            default: return previewHour;
+        }
     }
 
     private void updateCoordinates() {
@@ -318,7 +373,7 @@ public class WidgetConfigureActivity extends Activity {
         handler.post(previewUpdateRunnable);
     }
 
-    private void updatePreviewText() {
+    public void updatePreviewText() {
         Calendar calendar = Calendar.getInstance();
         int hour24 = calendar.get(Calendar.HOUR_OF_DAY);
         int hour12 = calendar.get(Calendar.HOUR);
@@ -328,8 +383,8 @@ public class WidgetConfigureActivity extends Activity {
         boolean showHour = WidgetPreferences.getShowHour(this, appWidgetId, true);
         boolean showMinute = WidgetPreferences.getShowMinute(this, appWidgetId, true);
         boolean showDayNight = WidgetPreferences.getShowDayNight(this, appWidgetId, true);
-        boolean showDate = WidgetPreferences.getShowDate(this, appWidgetId, true);
-        boolean showDayOfWeek = WidgetPreferences.getShowDayOfWeek(this, appWidgetId, true);
+        boolean showDate = WidgetPreferences.getShowDate(this, appWidgetId, false);
+        boolean showDayOfWeek = WidgetPreferences.getShowDayOfWeek(this, appWidgetId, false);
 
         String hourText = use12 ? NumberToWords.convertHour(hour24) : NumberToWords.convertHour24(hour24);
         String minuteText = NumberToWords.convertMinute(calendar.get(Calendar.MINUTE), WidgetPreferences.getAddZeroMinute(this, appWidgetId, false));
@@ -489,7 +544,16 @@ public class WidgetConfigureActivity extends Activity {
         WidgetPreferences.saveDayOfWeekOffsetX(this, appWidgetId, blockOffsets.get("dayOfWeek")[0]);
         WidgetPreferences.saveDayOfWeekOffsetY(this, appWidgetId, blockOffsets.get("dayOfWeek")[1]);
 
+        updateWidget();
+
         Toast.makeText(this, "Сохранено", Toast.LENGTH_SHORT).show();
+    }
+
+    private void updateWidget() {
+        Intent intent = new Intent(this, WordClockWidgetProvider.class);
+        intent.setAction(BaseWordClockWidgetProvider.UPDATE_ACTION);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        sendBroadcast(intent);
     }
 
     private void resetAll() {
@@ -507,8 +571,8 @@ public class WidgetConfigureActivity extends Activity {
         WidgetPreferences.saveShowHour(this, appWidgetId, true);
         WidgetPreferences.saveShowMinute(this, appWidgetId, true);
         WidgetPreferences.saveShowDayNight(this, appWidgetId, true);
-        WidgetPreferences.saveShowDate(this, appWidgetId, true);
-        WidgetPreferences.saveShowDayOfWeek(this, appWidgetId, true);
+        WidgetPreferences.saveShowDate(this, appWidgetId, false);
+        WidgetPreferences.saveShowDayOfWeek(this, appWidgetId, false);
         // reset colors
         WidgetPreferences.saveHourTextColor(this, appWidgetId, getResources().getColor(android.R.color.black));
         WidgetPreferences.saveMinuteTextColor(this, appWidgetId, getResources().getColor(android.R.color.black));

@@ -261,6 +261,9 @@ public class BlockAdapter extends BaseExpandableListAdapter {
                 WidgetPreferences.saveUse12HourFormat(context, appWidgetId, newValue);
                 valueText.setText(newValue ? "12-часовой" : "24-часовой");
                 updateWidget();
+                if (context instanceof WidgetConfigureActivity) {
+                    ((WidgetConfigureActivity) context).updatePreviewText();
+                }
             });
         } else if (child.equals("Размер шрифта")) {
             float currentSize = getFontSize(blockKey);
