@@ -388,8 +388,8 @@ public class WidgetPreferences {
     }
 
     // Constants for offset bounds
-    private static final int MAX_OFFSET = 130;
-    private static final int MIN_OFFSET = -130;
+    private static final int MAX_OFFSET = 170;
+    private static final int MIN_OFFSET = -170;
 
     public static int constrainOffset(int value) {
         return Math.max(MIN_OFFSET, Math.min(MAX_OFFSET, value));
