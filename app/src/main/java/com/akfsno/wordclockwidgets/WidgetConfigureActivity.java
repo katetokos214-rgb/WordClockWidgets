@@ -349,11 +349,11 @@ public class WidgetConfigureActivity extends Activity {
             return new int[]{boundedX, boundedY};
         }
 
-        int maxX = (containerW - viewW) / 2;
-        int minX = -maxX;
+        int maxX = WidgetPreferences.getMaxOffsetX();
+        int minX = WidgetPreferences.getMinOffsetX();
 
-        int maxY = (containerH - viewH) / 2;
-        int minY = -maxY;
+        int maxY = WidgetPreferences.getMaxOffsetY();
+        int minY = WidgetPreferences.getMinOffsetY();
 
         int boundedX = Math.max(minX, Math.min(maxX, x));
         int boundedY = Math.max(minY, Math.min(maxY, y));

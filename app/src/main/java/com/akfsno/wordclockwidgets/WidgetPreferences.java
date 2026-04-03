@@ -388,10 +388,10 @@ public class WidgetPreferences {
     }
 
     // Constants for offset bounds - limit to real widget boundaries
-    private static final int MAX_OFFSET_X = 100;
-    private static final int MIN_OFFSET_X = -100;
-    private static final int MAX_OFFSET_Y = 30;
-    private static final int MIN_OFFSET_Y = -30;
+    private static final int MAX_OFFSET_X = 280;
+    private static final int MIN_OFFSET_X = -280;
+    private static final int MAX_OFFSET_Y = 140;
+    private static final int MIN_OFFSET_Y = -140;
 
     public static int constrainOffsetX(int value) {
         return Math.max(MIN_OFFSET_X, Math.min(MAX_OFFSET_X, value));
@@ -414,19 +414,19 @@ public class WidgetPreferences {
         return MAX_OFFSET_X;
     }
 
-    public static int getMaxOffsetY() {
-        return MAX_OFFSET_Y;
-    }
-
-    public static int getMinOffset() {
-        return MIN_OFFSET_X;
-    }
-
     public static int getMinOffsetX() {
         return MIN_OFFSET_X;
     }
 
+    public static int getMaxOffsetY() {
+        return MAX_OFFSET_Y;
+    }
+
     public static int getMinOffsetY() {
         return MIN_OFFSET_Y;
+    }
+
+    public static int getMinOffset() {
+        return MIN_OFFSET_X;
     }
 }
