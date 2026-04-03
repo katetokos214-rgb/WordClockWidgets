@@ -349,11 +349,12 @@ public class WidgetConfigureActivity extends Activity {
             return new int[]{boundedX, boundedY};
         }
 
-        int maxX = (containerW - viewW) / 2;
-        int minX = -maxX;
-
-        int maxY = (containerH - viewH) / 2;
-        int minY = -maxY;
+        int originalMaxX = (containerW - viewW) / 2;
+        int originalMaxY = (containerH - viewH) / 2;
+        int maxX = originalMaxX * 3 / 2;  // было originalMaxX, стало originalMaxX * 1.5 (уменьшен отступ справа в 1.5 раза)
+        int minX = -originalMaxX * 2;  // было -originalMaxX, стало -originalMaxX * 2 (уменьшен отступ слева в 2 раза)
+        int maxY = originalMaxY * 3 / 2;  // было originalMaxY, стало originalMaxY * 1.5 (уменьшен отступ сверху/снизу в 1.5 раза)
+        int minY = -originalMaxY * 3 / 2;  // было -originalMaxY, стало -originalMaxY * 1.5 (уменьшен отступ сверху/снизу в 1.5 раза)
 
         int boundedX = Math.max(minX, Math.min(maxX, x));
         int boundedY = Math.max(minY, Math.min(maxY, y));

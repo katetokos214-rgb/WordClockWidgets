@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+import android.util.TypedValue;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,6 +91,13 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         String dateText = NumberToWords.convertDate(calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR));
 
         setTexts(views, hourText, minuteText, dayNightText, dayOfWeekText, dateText);
+
+        // Set text sizes
+        views.setTextViewTextSize(R.id.hour_text, TypedValue.COMPLEX_UNIT_SP, WidgetPreferences.getFontSize(context, appWidgetId, 24f));
+        views.setTextViewTextSize(R.id.minute_text, TypedValue.COMPLEX_UNIT_SP, WidgetPreferences.getMinuteFontSize(context, appWidgetId, 24f));
+        views.setTextViewTextSize(R.id.day_night_text, TypedValue.COMPLEX_UNIT_SP, WidgetPreferences.getDayNightFontSize(context, appWidgetId, 18f));
+        views.setTextViewTextSize(R.id.date_text, TypedValue.COMPLEX_UNIT_SP, WidgetPreferences.getDateFontSize(context, appWidgetId, 18f));
+        views.setTextViewTextSize(R.id.day_of_week_text, TypedValue.COMPLEX_UNIT_SP, WidgetPreferences.getDayOfWeekFontSize(context, appWidgetId, 18f));
 
         // Apply offsets using margin simulation on wrapper elements
         boolean useConstructorLayout = WidgetPreferences.getUseConstructorLayout(context, appWidgetId, false);
