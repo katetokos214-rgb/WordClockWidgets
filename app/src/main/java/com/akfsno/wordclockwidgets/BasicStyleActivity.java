@@ -61,6 +61,8 @@ public class BasicStyleActivity extends Activity {
         setupHourSize();
         setupMinuteSize();
         setupAddZeroMinute();
+        setupShowDate();
+        setupShowDayOfWeek();
 
         // Set basic style defaults
         WidgetPreferences.saveShowHour(this, appWidgetId, true);
@@ -331,6 +333,30 @@ public class BasicStyleActivity extends Activity {
 
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             WidgetPreferences.saveAddZeroMinute(BasicStyleActivity.this, appWidgetId, isChecked);
+            updatePreview();
+            updateWidget();
+        });
+    }
+
+    private void setupShowDate() {
+        CheckBox checkBox = findViewById(R.id.show_date_checkbox);
+        boolean current = WidgetPreferences.getShowDate(this, appWidgetId, false);
+        checkBox.setChecked(current);
+
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            WidgetPreferences.saveShowDate(BasicStyleActivity.this, appWidgetId, isChecked);
+            updatePreview();
+            updateWidget();
+        });
+    }
+
+    private void setupShowDayOfWeek() {
+        CheckBox checkBox = findViewById(R.id.show_day_of_week_checkbox);
+        boolean current = WidgetPreferences.getShowDayOfWeek(this, appWidgetId, false);
+        checkBox.setChecked(current);
+
+        checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            WidgetPreferences.saveShowDayOfWeek(BasicStyleActivity.this, appWidgetId, isChecked);
             updatePreview();
             updateWidget();
         });

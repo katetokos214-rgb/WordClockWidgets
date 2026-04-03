@@ -197,6 +197,22 @@
             android:text="+0 для цифр до 10 (минуты)"
             android:checked="false" />
 
+        <!-- Show Date -->
+        <CheckBox
+            android:id="@+id/show_date_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Показать дату"
+            android:checked="false" />
+
+        <!-- Show Day of Week -->
+        <CheckBox
+            android:id="@+id/show_day_of_week_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Показать день недели"
+            android:checked="false" />
+
         <!-- Save Button -->
         <Button
             android:id="@+id/save_button"

@@ -18,8 +18,8 @@
 
     <FrameLayout
         android:id="@+id/widget_preview_container"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
+        android:layout_width="380dp"
+        android:layout_height="230dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/widget_border">
 
