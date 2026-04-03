@@ -1,4 +1,4 @@
-чгpackage com.akfsno.wordclockwidgets;
+package com.akfsno.wordclockwidgets;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -154,8 +154,8 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         views.setViewVisibility(R.id.hour_text, showHour ? android.view.View.VISIBLE : android.view.View.GONE);
         views.setViewVisibility(R.id.minute_text, showMinute ? android.view.View.VISIBLE : android.view.View.GONE);
         views.setViewVisibility(R.id.day_night_text, showDayNight ? android.view.View.VISIBLE : android.view.View.GONE);
-        views.setViewVisibility(R.id.date_text, showDate ? android.view.View.VISIBLE : android.view.View.GONE);
-        views.setViewVisibility(R.id.day_of_week_text, showDayOfWeek ? android.view.View.VISIBLE : android.view.View.GONE);
+        views.setViewVisibility(R.id.date_wrapper, showDate ? android.view.View.VISIBLE : android.view.View.GONE);
+        views.setViewVisibility(R.id.day_of_week_wrapper, showDayOfWeek ? android.view.View.VISIBLE : android.view.View.GONE);
 
         int bgColor = WidgetPreferences.getBackgroundColor(context, appWidgetId, 0xFFFFFFFF);
         int alpha = WidgetPreferences.getBackgroundAlpha(context, appWidgetId, 255);
@@ -250,17 +250,16 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
             dateView.setTextColor(WidgetPreferences.getDateTextColor(context, appWidgetId, android.graphics.Color.BLACK));
             dateView.setVisibility(showDate ? android.view.View.VISIBLE : android.view.View.GONE);
         }
+        android.view.View dateWrapper = rootView.findViewById(R.id.date_wrapper);
+        if (dateWrapper != null) {
+            dateWrapper.setVisibility(showDate ? android.view.View.VISIBLE : android.view.View.GONE);
+        }
+        
         if (dayOfWeekView != null) {
             dayOfWeekView.setText(dayOfWeekText);
             dayOfWeekView.setTextSize(WidgetPreferences.getDayOfWeekFontSize(context, appWidgetId, 18f));
             dayOfWeekView.setTextColor(WidgetPreferences.getDayOfWeekTextColor(context, appWidgetId, android.graphics.Color.BLACK));
             dayOfWeekView.setVisibility(showDayOfWeek ? android.view.View.VISIBLE : android.view.View.GONE);
-        }
-
-        // Set wrapper visibility for date and day of week in constructor mode
-        android.view.View dateWrapper = rootView.findViewById(R.id.date_wrapper);
-        if (dateWrapper != null) {
-            dateWrapper.setVisibility(showDate ? android.view.View.VISIBLE : android.view.View.GONE);
         }
         android.view.View dayOfWeekWrapper = rootView.findViewById(R.id.day_of_week_wrapper);
         if (dayOfWeekWrapper != null) {
