@@ -236,7 +236,7 @@ public class BasicStyleActivity extends Activity {
         SeekBar seekBar = findViewById(R.id.day_night_size_seekbar);
         TextView valueText = findViewById(R.id.day_night_size_value);
         float current = WidgetPreferences.getDayNightFontSize(this, appWidgetId, 18f);
-        seekBar.setMax(50);
+        seekBar.setMax(30);
         seekBar.setProgress((int) (current - 10));
         valueText.setText(String.valueOf((int) current));
 
@@ -276,7 +276,7 @@ public class BasicStyleActivity extends Activity {
         SeekBar seekBar = findViewById(R.id.hour_size_seekbar);
         TextView valueText = findViewById(R.id.hour_size_value);
         float current = WidgetPreferences.getFontSize(this, appWidgetId, 24f);
-        seekBar.setMax(50);
+        seekBar.setMax(30);
         seekBar.setProgress((int) (current - 10));
         valueText.setText(String.valueOf((int) current));
 
@@ -302,7 +302,7 @@ public class BasicStyleActivity extends Activity {
         SeekBar seekBar = findViewById(R.id.minute_size_seekbar);
         TextView valueText = findViewById(R.id.minute_size_value);
         float current = WidgetPreferences.getMinuteFontSize(this, appWidgetId, 24f);
-        seekBar.setMax(50);
+        seekBar.setMax(30);
         seekBar.setProgress((int) (current - 10));
         valueText.setText(String.valueOf((int) current));
 
