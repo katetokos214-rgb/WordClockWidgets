@@ -17,13 +17,6 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
 
     public static final String UPDATE_ACTION = "UPDATE_WIDGET";
 
-    private static final int REAL_WIDGET_DP_WIDTH = 210;
-    private static final int REAL_WIDGET_DP_HEIGHT = 70;
-
-    private int dpToPx(Context context, int dp) {
-        return (int) (dp * context.getResources().getDisplayMetrics().density);
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
@@ -125,11 +118,11 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
             dayOfWeekDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDayOfWeekOffsetY(context, appWidgetId, 0));
         }
 
-        applyTranslationToWrapper(context, views, R.id.hour_wrapper, hourDx, hourDy);
-        applyTranslationToWrapper(context, views, R.id.minute_wrapper, minuteDx, minuteDy);
-        applyTranslationToWrapper(context, views, R.id.day_night_wrapper, dayNightDx, dayNightDy);
-        applyTranslationToWrapper(context, views, R.id.date_wrapper, dateDx, dateDy);
-        applyTranslationToWrapper(context, views, R.id.day_of_week_wrapper, dayOfWeekDx, dayOfWeekDy);
+        applyTranslationToWrapper(views, R.id.hour_wrapper, hourDx, hourDy);
+        applyTranslationToWrapper(views, R.id.minute_wrapper, minuteDx, minuteDy);
+        applyTranslationToWrapper(views, R.id.day_night_wrapper, dayNightDx, dayNightDy);
+        applyTranslationToWrapper(views, R.id.date_wrapper, dateDx, dateDy);
+        applyTranslationToWrapper(views, R.id.day_of_week_wrapper, dayOfWeekDx, dayOfWeekDy);
 
         int hourColor = WidgetPreferences.getHourTextColor(context, appWidgetId, getDefaultTextColor());
         int minuteColor = WidgetPreferences.getMinuteTextColor(context, appWidgetId, getDefaultTextColor());
@@ -258,11 +251,11 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
             dayOfWeekDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDayOfWeekOffsetY(context, appWidgetId, 0));
         }
 
-        applyLocalTranslation(context, rootView, R.id.hour_wrapper, hourDx, hourDy);
-        applyLocalTranslation(context, rootView, R.id.minute_wrapper, minuteDx, minuteDy);
-        applyLocalTranslation(context, rootView, R.id.day_night_wrapper, dayNightDx, dayNightDy);
-        applyLocalTranslation(context, rootView, R.id.date_wrapper, dateDx, dateDy);
-        applyLocalTranslation(context, rootView, R.id.day_of_week_wrapper, dayOfWeekDx, dayOfWeekDy);
+        applyLocalTranslation(rootView, R.id.hour_wrapper, hourDx, hourDy);
+        applyLocalTranslation(rootView, R.id.minute_wrapper, minuteDx, minuteDy);
+        applyLocalTranslation(rootView, R.id.day_night_wrapper, dayNightDx, dayNightDy);
+        applyLocalTranslation(rootView, R.id.date_wrapper, dateDx, dateDy);
+        applyLocalTranslation(rootView, R.id.day_of_week_wrapper, dayOfWeekDx, dayOfWeekDy);
 
         int bgColor = WidgetPreferences.getBackgroundColor(context, appWidgetId, 0xFFFFFFFF);
         int alpha = WidgetPreferences.getBackgroundAlpha(context, appWidgetId, 255);
@@ -294,22 +287,16 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         }
     }
 
-    private void applyTranslationToWrapper(Context context, RemoteViews views, int wrapperViewId, int offsetX, int offsetY) {
-        int widgetWidthPx = dpToPx(context, REAL_WIDGET_DP_WIDTH);
-        int widgetHeightPx = dpToPx(context, REAL_WIDGET_DP_HEIGHT);
-        // Edge-based positioning: offsetX/Y are distances from left/top edge of widget
-        // Translation = offset - widget/2 to position from edge instead of center
-        views.setFloat(wrapperViewId, "setTranslationX", offsetX - widgetWidthPx / 2);
-        views.setFloat(wrapperViewId, "setTranslationY", offsetY - widgetHeightPx / 2);
+    private void applyTranslationToWrapper(RemoteViews views, int wrapperViewId, int offsetX, int offsetY) {
+        views.setFloat(wrapperViewId, "setTranslationX", offsetX);
+        views.setFloat(wrapperViewId, "setTranslationY", offsetY);
     }
 
-    private static void applyLocalTranslation(Context context, android.view.View rootView, int viewId, int offsetX, int offsetY) {
+    private static void applyLocalTranslation(android.view.View rootView, int viewId, int offsetX, int offsetY) {
         android.view.View wrapper = rootView.findViewById(viewId);
         if (wrapper != null) {
-            int widgetWidthPx = (int) (210 * context.getResources().getDisplayMetrics().density);
-            int widgetHeightPx = (int) (70 * context.getResources().getDisplayMetrics().density);
-            wrapper.setTranslationX(offsetX - widgetWidthPx / 2);
-            wrapper.setTranslationY(offsetY - widgetHeightPx / 2);
+            wrapper.setTranslationX(offsetX);
+            wrapper.setTranslationY(offsetY);
         }
     }
 

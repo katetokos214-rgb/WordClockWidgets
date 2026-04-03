@@ -317,15 +317,8 @@ public class WidgetConfigureActivity extends Activity {
         off[0] = bounded[0];
         off[1] = bounded[1];
 
-        int containerW = previewContainer.getWidth();
-        int containerH = previewContainer.getHeight();
-        int viewW = view.getWidth();
-        int viewH = view.getHeight();
-
-        // Edge-based positioning: offsetX/Y are distances from left/top edge
-        // Translation = offset - container/2 to position from edge instead of center
-        view.setTranslationX(bounded[0] - containerW / 2);
-        view.setTranslationY(bounded[1] - containerH / 2);
+        view.setTranslationX(bounded[0]);
+        view.setTranslationY(bounded[1]);
     }
 
     private int[] constrainOffsetToPreview(View view, int x, int y) {
@@ -355,11 +348,11 @@ public class WidgetConfigureActivity extends Activity {
             return new int[]{boundedX, boundedY};
         }
 
-        int maxX = containerW - viewW;
-        int minX = 0;
+        int maxX = (containerW - viewW) / 2;
+        int minX = -maxX;
 
-        int maxY = containerH - viewH;
-        int minY = 0;
+        int maxY = (containerH - viewH) / 2;
+        int minY = -maxY;
 
         int boundedX = Math.max(minX, Math.min(maxX, x));
         int boundedY = Math.max(minY, Math.min(maxY, y));
