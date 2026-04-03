@@ -102,27 +102,36 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         int dayOfWeekDy = 0;
 
         boolean useConstructor = WidgetPreferences.getUseConstructorLayout(context, appWidgetId, false);
-        if (useConstructor) {
-            hourDx = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetX(context, appWidgetId, "hour", 0));
-            hourDy = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetY(context, appWidgetId, "hour", 0));
-            minuteDx = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetX(context, appWidgetId, "minute", 0));
-            minuteDy = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetY(context, appWidgetId, "minute", 0));
-            dayNightDx = WidgetPreferences.constrainOffset(WidgetPreferences.getDayNightOffsetX(context, appWidgetId, 0));
-            dayNightDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDayNightOffsetY(context, appWidgetId, 0));
-            dateDx = WidgetPreferences.constrainOffset(WidgetPreferences.getDateOffsetX(context, appWidgetId, 0));
-            dateDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDateOffsetY(context, appWidgetId, 0));
-            dayOfWeekDx = WidgetPreferences.constrainOffset(WidgetPreferences.getDayOfWeekOffsetX(context, appWidgetId, 0));
-            dayOfWeekDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDayOfWeekOffsetY(context, appWidgetId, 0));
-        }
 
-        // Apply large offsets for real widget in base mode: position elements vertically with large spacing
-        if (use12Hour) {
-            hourDx += 340;  // large horizontal offset
-            hourDy += 200;  // large vertical offset
+        if (useConstructor) {
+            // Constructor mode: use user offsets with relaxed bounds (closer to widget edges)
+            hourDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getOffsetX(context, appWidgetId, "hour", 0));
+            hourDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getOffsetY(context, appWidgetId, "hour", 0));
+            minuteDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getOffsetX(context, appWidgetId, "minute", 0));
+            minuteDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getOffsetY(context, appWidgetId, "minute", 0));
+            dayNightDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getDayNightOffsetX(context, appWidgetId, 0));
+            dayNightDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getDayNightOffsetY(context, appWidgetId, 0));
+            dateDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getDateOffsetX(context, appWidgetId, 0));
+            dateDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getDateOffsetY(context, appWidgetId, 0));
+            dayOfWeekDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getDayOfWeekOffsetX(context, appWidgetId, 0));
+            dayOfWeekDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getDayOfWeekOffsetY(context, appWidgetId, 0));
         } else {
-            hourDy += 200;  // large vertical offset for 24h
+            // Base mode: center hour/dayNight/minute vertically stacked (hour above dayNight above minute)
+            hourDx = 0;
+            hourDy = -40;
+            dayNightDx = 0;
+            dayNightDy = 0;
+            minuteDx = 0;
+            minuteDy = 40;
+            dateDx = 0;
+            dateDy = 0;
+            dayOfWeekDx = 0;
+            dayOfWeekDy = 0;
+
+            // Base mode hides date/dayOfWeek (only constructor mode can opt-in)
+            showDate = false;
+            showDayOfWeek = false;
         }
-        minuteDy += 200;   // large vertical offset for minutes
 
         applyTranslationToWrapper(views, R.id.hour_wrapper, hourDx, hourDy);
         applyTranslationToWrapper(views, R.id.minute_wrapper, minuteDx, minuteDy);
@@ -271,25 +280,33 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
 
         boolean useConstructor = WidgetPreferences.getUseConstructorLayout(context, appWidgetId, false);
         if (useConstructor) {
-            hourDx = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetX(context, appWidgetId, "hour", 0));
-            hourDy = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetY(context, appWidgetId, "hour", 0));
-            minuteDx = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetX(context, appWidgetId, "minute", 0));
-            minuteDy = WidgetPreferences.constrainOffset(WidgetPreferences.getOffsetY(context, appWidgetId, "minute", 0));
-            dayNightDx = WidgetPreferences.constrainOffset(WidgetPreferences.getDayNightOffsetX(context, appWidgetId, 0));
-            dayNightDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDayNightOffsetY(context, appWidgetId, 0));
-            dateDx = WidgetPreferences.constrainOffset(WidgetPreferences.getDateOffsetX(context, appWidgetId, 0));
-            dateDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDateOffsetY(context, appWidgetId, 0));
-            dayOfWeekDx = WidgetPreferences.constrainOffset(WidgetPreferences.getDayOfWeekOffsetX(context, appWidgetId, 0));
-            dayOfWeekDy = WidgetPreferences.constrainOffset(WidgetPreferences.getDayOfWeekOffsetY(context, appWidgetId, 0));
-        }
-
-        if (use12Hour) {
-            hourDx += 40;  // constructor mode: smaller offset
-            hourDy += 40;
+            // Constructor mode: user-defined offset with relaxed bounds
+            hourDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getOffsetX(context, appWidgetId, "hour", 0));
+            hourDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getOffsetY(context, appWidgetId, "hour", 0));
+            minuteDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getOffsetX(context, appWidgetId, "minute", 0));
+            minuteDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getOffsetY(context, appWidgetId, "minute", 0));
+            dayNightDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getDayNightOffsetX(context, appWidgetId, 0));
+            dayNightDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getDayNightOffsetY(context, appWidgetId, 0));
+            dateDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getDateOffsetX(context, appWidgetId, 0));
+            dateDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getDateOffsetY(context, appWidgetId, 0));
+            dayOfWeekDx = WidgetPreferences.constrainOffsetX(WidgetPreferences.getDayOfWeekOffsetX(context, appWidgetId, 0));
+            dayOfWeekDy = WidgetPreferences.constrainOffsetY(WidgetPreferences.getDayOfWeekOffsetY(context, appWidgetId, 0));
         } else {
-            hourDy += 40;
+            // Base mode: vertical centered stack
+            hourDx = 0;
+            hourDy = -40;
+            dayNightDx = 0;
+            dayNightDy = 0;
+            minuteDx = 0;
+            minuteDy = 40;
+            dateDx = 0;
+            dateDy = 0;
+            dayOfWeekDx = 0;
+            dayOfWeekDy = 0;
+
+            showDate = false;
+            showDayOfWeek = false;
         }
-        minuteDy += 40;
 
 
         int bgColor = WidgetPreferences.getBackgroundColor(context, appWidgetId, 0xFFFFFFFF);

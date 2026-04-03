@@ -387,11 +387,11 @@ public class WidgetPreferences {
         return prefs.getInt("blockBorderColor_" + appWidgetId, defaultColor);
     }
 
-    // Constants for offset bounds - limit to real widget boundaries
-    private static final int MAX_OFFSET_X = 280;
-    private static final int MIN_OFFSET_X = -280;
-    private static final int MAX_OFFSET_Y = 140;
-    private static final int MIN_OFFSET_Y = -140;
+    // Constants for offset bounds - extended for constructor mode edge reach
+    private static final int MAX_OFFSET_X = 500;
+    private static final int MIN_OFFSET_X = -500;
+    private static final int MAX_OFFSET_Y = 250;
+    private static final int MIN_OFFSET_Y = -250;
 
     public static int constrainOffsetX(int value) {
         return Math.max(MIN_OFFSET_X, Math.min(MAX_OFFSET_X, value));
