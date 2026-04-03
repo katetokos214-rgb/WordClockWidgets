@@ -61,8 +61,7 @@ public class BasicStyleActivity extends Activity {
         setupHourSize();
         setupMinuteSize();
         setupAddZeroMinute();
-        setupShowDate();
-        setupShowDayOfWeek();
+        
 
         // Set basic style defaults and make base mode
         WidgetPreferences.saveUseConstructorLayout(this, appWidgetId, false);
@@ -339,19 +338,8 @@ public class BasicStyleActivity extends Activity {
         });
     }
 
-    private void setupShowDate() {
-        CheckBox checkBox = findViewById(R.id.show_date_checkbox);
-        checkBox.setChecked(false);
-        checkBox.setEnabled(false);
-        WidgetPreferences.saveShowDate(this, appWidgetId, false);
-    }
+    
 
-    private void setupShowDayOfWeek() {
-        CheckBox checkBox = findViewById(R.id.show_day_of_week_checkbox);
-        checkBox.setChecked(false);
-        checkBox.setEnabled(false);
-        WidgetPreferences.saveShowDayOfWeek(this, appWidgetId, false);
-    }
 
     private void updatePreview() {
         BaseWordClockWidgetProvider.updateLocalWidgetView(this, findViewById(R.id.preview_container), appWidgetId);
