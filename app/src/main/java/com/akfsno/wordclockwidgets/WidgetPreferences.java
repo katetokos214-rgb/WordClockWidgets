@@ -388,10 +388,10 @@ public class WidgetPreferences {
     }
 
     // Constants for offset bounds - extended for constructor mode edge reach
-    private static final int MAX_OFFSET_X = 500;
-    private static final int MIN_OFFSET_X = -500;
-    private static final int MAX_OFFSET_Y = 250;
-    private static final int MIN_OFFSET_Y = -250;
+    private static final int MAX_OFFSET_X = 420;
+    private static final int MIN_OFFSET_X = -420;
+    private static final int MAX_OFFSET_Y = 280;
+    private static final int MIN_OFFSET_Y = -280;
 
     public static int constrainOffsetX(int value) {
         return Math.max(MIN_OFFSET_X, Math.min(MAX_OFFSET_X, value));
