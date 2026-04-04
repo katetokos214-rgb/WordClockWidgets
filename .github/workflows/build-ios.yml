@@ -150,7 +150,7 @@ jobs:
           cat build/BUILD_REPORT.md
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: ios-build-artifacts
