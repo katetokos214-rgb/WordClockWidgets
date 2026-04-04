@@ -35,10 +35,10 @@ public class WidgetConfigureActivity extends Activity {
     // Static method to get the scale factor for preview font sizes using area ratio
     public static float getPreviewFontScale(Context context) {
         float density = context.getResources().getDisplayMetrics().density;
-        int previewPxWidth = (int) (CONSTRUCTOR_PREVIEW_DP_WIDTH * density + 0.5f);
-        int previewPxHeight = (int) (CONSTRUCTOR_PREVIEW_DP_HEIGHT * density + 0.5f);
-        int realPxWidth = (int) (REAL_WIDGET_DP_WIDTH * density + 0.5f);
-        int realPxHeight = (int) (REAL_WIDGET_DP_HEIGHT * density + 0.5f);
+        int previewPxWidth = (int) (CONSTRUCTOR_PREVIEW_DP_WIDTH * density + 2f);
+        int previewPxHeight = (int) (CONSTRUCTOR_PREVIEW_DP_HEIGHT * density + 2f);
+        int realPxWidth = (int) (REAL_WIDGET_DP_WIDTH * density + 2f);
+        int realPxHeight = (int) (REAL_WIDGET_DP_HEIGHT * density + 2f);
         float previewArea = (float) previewPxWidth * previewPxHeight;
         float realArea = (float) realPxWidth * realPxHeight;
         if (realArea <= 0f) return 1f;
