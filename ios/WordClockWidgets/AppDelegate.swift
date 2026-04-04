@@ -11,7 +11,14 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Check compatibility
+        let report = CompatibilityChecker.checkCompatibility()
+        CompatibilityChecker.printReport(report)
+        
+        if !report.isCompatible {
+            print("WARNING: App may not work correctly on this device!")
+        }
+        
         return true
     }
 
