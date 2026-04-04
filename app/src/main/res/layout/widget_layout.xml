@@ -114,12 +114,17 @@
                 android:id="@+id/dot_wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
-                <View
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
                     android:id="@+id/dot_view"
                     android:layout_width="4dp"
                     android:layout_height="4dp"
-                    android:background="@android:color/holo_red_light" />
+                    android:background="@android:color/holo_red_light"
+                    android:text=""
+                    android:clickable="true"
+                    android:focusable="true" />
             </FrameLayout>
 
         </FrameLayout>

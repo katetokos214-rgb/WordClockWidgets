@@ -28,8 +28,8 @@ public class WidgetConfigureActivity extends Activity {
 
     private static final int REAL_WIDGET_DP_WIDTH = 210;
     private static final int REAL_WIDGET_DP_HEIGHT = 70;
-    private static final int CONSTRUCTOR_PREVIEW_DP_WIDTH = 420;  // 2x real width for 2:1 ratio
-    private static final int CONSTRUCTOR_PREVIEW_DP_HEIGHT = 140; // 2x real height for 2:1 ratio
+    private static final int CONSTRUCTOR_PREVIEW_DP_WIDTH = 600;
+    private static final int CONSTRUCTOR_PREVIEW_DP_HEIGHT = 250;
 
     private static final int GRID_COLUMNS = 6;
     private static final int GRID_ROWS = 2;
@@ -144,18 +144,11 @@ public class WidgetConfigureActivity extends Activity {
     private void setPreviewContainerByProvider() {
         if (previewContainer == null) return;
 
-        android.util.DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        int screenWidth = displayMetrics.widthPixels;
-        
-        // Calculate exact 6x2 grid dimensions with borders
-        int cellWidthPx = dpToPx(CONSTRUCTOR_PREVIEW_DP_WIDTH) / GRID_COLUMNS;  // Each cell is constructor_preview_width / 6
-        int cellHeightPx = dpToPx(CONSTRUCTOR_PREVIEW_DP_HEIGHT) / GRID_ROWS;   // Each cell is constructor_preview_height / 2
-        
-        int previewWidthPx = cellWidthPx * GRID_COLUMNS;   // 6 cells wide
-        int previewHeightPx = cellHeightPx * GRID_ROWS;    // 2 cells high
-        
-        // Ensure it fits on screen
-        previewWidthPx = Math.min(screenWidth - dpToPx(32), previewWidthPx); // Leave some margin
+        // Use the explicit constructor preview dimensions in dp
+        int previewWidthPx = dpToPx(CONSTRUCTOR_PREVIEW_DP_WIDTH);
+        int previewHeightPx = dpToPx(CONSTRUCTOR_PREVIEW_DP_HEIGHT);
+        int cellWidthPx = previewWidthPx / GRID_COLUMNS;
+        int cellHeightPx = previewHeightPx / GRID_ROWS;
         
         previewPixelWidth = previewWidthPx;
         previewPixelHeight = previewHeightPx;
@@ -327,6 +320,10 @@ public class WidgetConfigureActivity extends Activity {
             childList.add("Показать элемент");
             if (group.equals("Минуты")) {
                 childList.add("+ 0 для цифр до 10");
+            }
+            if (group.equals("Отладка")) {
+                childList.clear();
+                childList.add("Точка");
             }
             children.put(group, childList);
         }

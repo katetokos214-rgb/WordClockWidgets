@@ -136,6 +136,10 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
         applyPaddingToWrapper(views, R.id.date_wrapper, dateDx, dateDy);
         applyPaddingToWrapper(views, R.id.day_of_week_wrapper, dayOfWeekDx, dayOfWeekDy);
 
+        if (useConstructorLayout) {
+            views.setViewVisibility(R.id.dot_wrapper, android.view.View.GONE);
+        }
+
         int hourColor = WidgetPreferences.getHourTextColor(context, appWidgetId, getDefaultTextColor());
         int minuteColor = WidgetPreferences.getMinuteTextColor(context, appWidgetId, getDefaultTextColor());
         int dayNightColor = WidgetPreferences.getDayNightTextColor(context, appWidgetId, getDefaultBorderColor());
@@ -326,11 +330,11 @@ public abstract class BaseWordClockWidgetProvider extends AppWidgetProvider {
     }
 
     private void applyPaddingToWrapper(RemoteViews views, int wrapperViewId, int offsetX, int offsetY) {
-        // Allow negative padding to enable elements to be positioned at widget edges and beyond
-        int left = offsetX;
-        int top = offsetY;
-        int right = -offsetX;
-        int bottom = -offsetY;
+        // RemoteViews padding must be non-negative; use left/top for positive offsets and right/bottom for negative offsets.
+        int left = Math.max(0, offsetX);
+        int top = Math.max(0, offsetY);
+        int right = Math.max(0, -offsetX);
+        int bottom = Math.max(0, -offsetY);
         views.setViewPadding(wrapperViewId, left, top, right, bottom);
     }
 

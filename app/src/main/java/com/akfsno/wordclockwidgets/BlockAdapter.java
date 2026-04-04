@@ -375,6 +375,8 @@ public class BlockAdapter extends BaseExpandableListAdapter {
                 return "date";
             case 5:
                 return "dayOfWeek";
+            case 6:
+                return "dot";
             default:
                 return "hour";
         }
