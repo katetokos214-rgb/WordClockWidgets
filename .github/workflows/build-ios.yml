@@ -66,17 +66,15 @@ jobs:
             exit 1
           fi
           
-          # Check workspace
-          if [ -d "$WORKSPACE" ]; then
-            echo "✅ Found workspace: $WORKSPACE"
-            USE_WORKSPACE=1
+          # Check project
+          if [ -d "WordClockWidgets.xcodeproj" ]; then
+            echo "✅ Found project: WordClockWidgets.xcodeproj"
           else
-            echo "❌ Workspace not found: $WORKSPACE"
+            echo "❌ Project not found: WordClockWidgets.xcodeproj"
             exit 1
           fi
           
           echo "✅ Project structure verified"
-          echo "USE_WORKSPACE=$USE_WORKSPACE" >> $GITHUB_ENV
       
       - name: Clean build
         run: |
@@ -94,35 +92,19 @@ jobs:
           cd $PROJECT_PATH
           
           echo "=== Building for iOS device (arm64) ==="
+          echo "Building with project: WordClockWidgets.xcodeproj"
           
-          # Determine build command
-          if [ "$USE_WORKSPACE" = "1" ]; then
-            echo "Building with workspace: $WORKSPACE"
-            xcodebuild \
-              -workspace "$WORKSPACE" \
-              -scheme "$PRODUCT_NAME" \
-              -configuration "$CONFIGURATION" \
-              -destination "generic/platform=ios" \
-              -derivedDataPath "build/DerivedData" \
-              -arch arm64 \
-              CODE_SIGN_IDENTITY="" \
-              CODE_SIGNING_REQUIRED=NO \
-              CODE_SIGNING_ALLOWED=NO \
-              build 2>&1 | tail -60
-          else
-            echo "Building with project: WordClockWidgets.xcodeproj"
-            xcodebuild \
-              -project "WordClockWidgets.xcodeproj" \
-              -scheme "$PRODUCT_NAME" \
-              -configuration "$CONFIGURATION" \
-              -destination "generic/platform=ios" \
-              -derivedDataPath "build/DerivedData" \
-              -arch arm64 \
-              CODE_SIGN_IDENTITY="" \
-              CODE_SIGNING_REQUIRED=NO \
-              CODE_SIGNING_ALLOWED=NO \
-              build 2>&1 | tail -60
-          fi
+          xcodebuild \
+            -project "WordClockWidgets.xcodeproj" \
+            -scheme "$PRODUCT_NAME" \
+            -configuration "$CONFIGURATION" \
+            -destination "generic/platform=ios" \
+            -derivedDataPath "build/DerivedData" \
+            -arch arm64 \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build 2>&1 | tail -60
           
           BUILD_RESULT=${PIPESTATUS[0]}
           
